@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Hero } from 'src/app/interfaces/hero';
-import { HEROES } from 'src/app/mocks/heroes.mock';
+// Dès le service créé, nous n'vons plus besoin du mock directement (service)
+// import { HEROES } from 'src/app/mocks/heroes.mock';
+import { HeroService } from 'src/app/service/hero.service';
 
 @Component({
   selector: 'app-heroes',
@@ -8,6 +10,9 @@ import { HEROES } from 'src/app/mocks/heroes.mock';
   styleUrls: ['./heroes.component.css'],
 })
 export class HeroesComponent {
+  // Injection des services
+  constructor(private heroService: HeroService) {}
+
   //? AVANT (avant la création et l'import de l'interface) => Add a hero property to HeroesComponent
   // hero: string  = "Windstorm";
   //? AVANT (après l'import et la création de l'interface) => Je type la propriété avec l'interface
@@ -16,19 +21,34 @@ export class HeroesComponent {
   //   id: 1,
   //   name: 'Windstorm',
   // };
-  //* MAINTENANT (Utilisation d'un mock => le mock est calqué sur la structure de l'interface) 
+  //* MAINTENANT (Utilisation d'un mock => le mock est calqué sur la structure de l'interface)
   // Je range dans une propriété heroes le contenu data de mon heroes.mock.ts
-  // La propriété "heroes" est de type [tableau] 
-  // Elle copie la structure de mon interface "Hero" 
+  // La propriété "heroes" est de type [tableau]
+  // Elle copie la structure de mon interface "Hero"
   // Elle est égale à ma constante HEROES et en reflète les datas
-  heroes: Hero[] = HEROES;
+  // heroes: Hero[] = HEROES;
+  //* MAINTENANT Dès l'import du service, on redéfini la props heroes
+  heroes: Hero[] = [];
   // Création d'une propriété container qui contiendra le héro cliqué
   // Elle est de type Hero (interface)
   selectedHero?: Hero;
+
   // Méthodes
+  ngOnInit() {
+    // Au lancement du component, la méthode s'éxecute
+    this.getHeroes();
+  }
+  // Récupérer La data au clic
   onSelect(hero: Hero): void {
     // Le param récupère le héro cliqué grâce à (click)
     // Je range cette data dans ma props container
     this.selectedHero = hero;
+  }
+  // Récupérer les héros grâce au service
+  getHeroes(): void {
+    //? AVANT J'envoie dans ma props heroes[] la liste des héros retournée par la méthode getHeroes() du service
+    // this.heroes = this.heroService.getHeroes();
+    //* MAINTENANT J'adapte à la méthode asynchrone liée à l'observable implémanté dans le service
+    this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
   }
 }
