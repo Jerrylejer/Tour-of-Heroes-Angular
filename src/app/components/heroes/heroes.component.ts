@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Hero } from 'src/app/interfaces/hero';
 // Dès le service créé, nous n'vons plus besoin du mock directement (service)
 // import { HEROES } from 'src/app/mocks/heroes.mock';
@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/service/message.service';
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css'],
 })
-export class HeroesComponent {
+export class HeroesComponent implements OnInit {
   // Injection des services
   constructor(private heroService: HeroService,
     private messageService: MessageService) {}
@@ -35,20 +35,19 @@ export class HeroesComponent {
   // Création d'une propriété container qui contiendra le héro cliqué
   // Elle est de type Hero (interface)
   selectedHero?: Hero;
-
   // Méthodes
   ngOnInit() {
     // Au lancement du component, la méthode s'éxecute
     this.getHeroes();
   }
   // Récupérer La data au clic
-  onSelect(hero: Hero): void {
+  // onSelect(hero: Hero): void {
     // Le param récupère le héro cliqué grâce à (click)
     // Je range cette data dans ma props container
-    this.selectedHero = hero;
+    // this.selectedHero = hero;
     // J'inclue un message lors de la sélection spécifique d'un héros
-    this.messageService.addMessage(`HeroesComponent: Selected hero id=${hero.id}`)
-  }
+  //   this.messageService.addMessage(`HeroesComponent: Selected hero id=${hero.id}`)
+  // }
   // Récupérer les héros grâce au service
   getHeroes(): void {
     //? AVANT J'envoie dans ma props heroes[] la liste des héros retournée par la méthode getHeroes() du service
