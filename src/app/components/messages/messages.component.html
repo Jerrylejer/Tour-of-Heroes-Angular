@@ -1,0 +1,9 @@
+<div *ngIf="messageService.messages.length">
+    <!-- Si ma propriété de type [] a une longueur non nulle -->
+    <h2>Message</h2>
+    <!-- J'accède à la méthode en appelant la props du constructeur.quelquechose -->
+    <button type="button" class="clear" 
+    (click)="messageService.clearMessages()">Clear messages</button>
+    <!-- Je boucle sur mon tableau avec la Directive *ngFor -->
+    <div *ngFor="let message of messageService.messages">{{message}}</div>
+</div>
