@@ -8,17 +8,23 @@ import { HEROES } from '../mocks/heroes.mock';
 import { MessageService } from './message.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HeroService {
-
-  constructor(private messageService: MessageService) { }
-
+  constructor(private messageService: MessageService) {}
+  // Retourne la liste des héros
   getHeroes(): Observable<Hero[]> {
     const heroes = of(HEROES);
     // Intégration du messageService pour renvoyer un message lorsque la liste est chargée
-    this.messageService.addMessage('HeroService: fectched heroes')
+    this.messageService.addMessage('HeroService: fectched heroes');
     // GetHeroes retourne les datas contenues dans HEROES (typé dans ce but; ni void, ni any)
     return heroes;
+  }
+  // Retourne un héros
+  getHero(id: number): Observable<Hero> {
+    const hero = HEROES.find(h => h.id === id)!;
+    // Intégration du messageService pour renvoyer un message lorsque le héros est chargé
+    this.messageService.addMessage(`HeroService: fectched hero id=${id}`);
+    return of(hero);
   }
 }
