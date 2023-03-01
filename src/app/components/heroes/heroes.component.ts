@@ -3,6 +3,8 @@ import { Hero } from 'src/app/interfaces/hero';
 // Dès le service créé, nous n'vons plus besoin du mock directement (service)
 // import { HEROES } from 'src/app/mocks/heroes.mock';
 import { HeroService } from 'src/app/service/hero.service';
+// Import du service messageService
+import { MessageService } from 'src/app/service/message.service';
 
 @Component({
   selector: 'app-heroes',
@@ -11,7 +13,8 @@ import { HeroService } from 'src/app/service/hero.service';
 })
 export class HeroesComponent {
   // Injection des services
-  constructor(private heroService: HeroService) {}
+  constructor(private heroService: HeroService,
+    private messageService: MessageService) {}
 
   //? AVANT (avant la création et l'import de l'interface) => Add a hero property to HeroesComponent
   // hero: string  = "Windstorm";
@@ -43,6 +46,8 @@ export class HeroesComponent {
     // Le param récupère le héro cliqué grâce à (click)
     // Je range cette data dans ma props container
     this.selectedHero = hero;
+    // J'inclue un message lors de la sélection spécifique d'un héros
+    this.messageService.addMessage(`HeroesComponent: Selected hero id=${hero.id}`)
   }
   // Récupérer les héros grâce au service
   getHeroes(): void {
