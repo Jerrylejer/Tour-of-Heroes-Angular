@@ -48,11 +48,27 @@ export class HeroesComponent implements OnInit {
     // J'inclue un message lors de la sélection spécifique d'un héros
   //   this.messageService.addMessage(`HeroesComponent: Selected hero id=${hero.id}`)
   // }
-  // Récupérer les héros grâce au service
+  //todo Récupérer les héros grâce au service
   getHeroes(): void {
     //? AVANT J'envoie dans ma props heroes[] la liste des héros retournée par la méthode getHeroes() du service
     // this.heroes = this.heroService.getHeroes();
     //* MAINTENANT J'adapte à la méthode asynchrone liée à l'observable implémanté dans le service
     this.heroService.getHeroes().subscribe(heroes => this.heroes = heroes);
+  }
+
+  //todo Méthode qui ajoute le nom d'un nouveau héro et efface l'input pour la suite
+  add(name: string): void {
+    // On supprime les éventuels espace en début en fin de saisie du nom
+    name = name.trim();
+    // Si pas de saisie, on ne retourne rien
+    if (!name) { return};
+    this.heroService.addHero({ name } as Hero).subscribe(hero => {this.heroes.push(hero)})
+  }
+
+  //todo Méthode qui supprime de la liste un héro
+  delete(hero: Hero): void {
+    // On filtre sur le tableau des heros pour ne retenir que les héros différents de celui sélectionné
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero.id).subscribe();
   }
 }
